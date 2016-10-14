@@ -2,9 +2,9 @@
  * Created by smiracle on 9/27/16.
  */
 import {Component, OnInit} from '@angular/core';
-import {ContentService} from "../../services/content.service";
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
+import {PageDataContentService} from "../../services/pagedata.content.service";
 
 
 @Component({
@@ -14,23 +14,17 @@ import 'rxjs/add/operator/toPromise';
 
 export class Home implements OnInit {
 
-    errorMessage: string;
     content: any;
     title: string;
     route: any;
     sub: any;
     data: any;
-    mode = 'Observable';
 
-    constructor (private contentService: ContentService, route: ActivatedRoute) {
+    constructor (private contentService: PageDataContentService, route: ActivatedRoute) {
 
         this.title = '';
         this.content = {};
         this.route = route;
-
-        this.data = {
-            dataUrl: ''
-        }
 
     }
 
@@ -39,22 +33,16 @@ export class Home implements OnInit {
 
         var url = '';
 
-        this.route.data.subscribe( v => url = v.contentUrl );
+        this.route.data.subscribe( v => url = v.path );
 
         this.getContent(url);
 
     }
 
 
-    updateService(service) {
+    getContent( url ) {
 
-
-    }
-
-
-    getContent( data ) {
-
-        this.contentService.getContent(data).then( content => this.content = content);
+        this.content = this.contentService.get(url);
 
     }
 
