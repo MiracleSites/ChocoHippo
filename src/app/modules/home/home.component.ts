@@ -3,9 +3,6 @@
  */
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import 'rxjs/add/operator/toPromise';
-import {PageDataContentService} from "../../services/pagedata.content.service";
-
 
 @Component({
     selector: 'home',
@@ -20,7 +17,7 @@ export class Home implements OnInit {
     sub: any;
     data: any;
 
-    constructor (private contentService: PageDataContentService, route: ActivatedRoute) {
+    constructor (route: ActivatedRoute) {
 
         this.title = '';
         this.content = {};
@@ -33,18 +30,8 @@ export class Home implements OnInit {
 
         var url = '';
 
-        this.route.data.subscribe( v => url = v.path );
-
-        this.getContent(url);
+        this.route.data.subscribe( v => this.content = v );
 
     }
-
-
-    getContent( url ) {
-
-        this.content = this.contentService.get(url);
-
-    }
-
 
 }
